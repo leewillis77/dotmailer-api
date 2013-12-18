@@ -8,7 +8,7 @@
         "api"
     ],
     "homepage": "https://github.com/leewillis77/dotmailer-api",
-    "license": "MIT",
+    "license": "GPL-2.0",
     "authors": [
         {
             "name": "Lee Willis",
@@ -16,8 +16,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/sebastianbergmann/php-text-template/issues",
-        "irc": "irc://irc.freenode.net/phpunit"
+        "issues": "https://github.com/leewillis77/dotmailer-api/issues"
     },
     "require": {
         "guzzle/guzzle": "3.7.*",
