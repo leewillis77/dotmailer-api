@@ -20,7 +20,9 @@
         "irc": "irc://irc.freenode.net/phpunit"
     },
     "require": {
-        "php": ">=5.3.3"
+        "guzzle/guzzle": "3.7.*",
+        "symfony/yaml": "2.4.*",
+        "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
         "psr-0": {
