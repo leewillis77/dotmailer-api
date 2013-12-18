@@ -1,0 +1,8 @@
+# Copy this file as config/config.yml and use it
+# to instantiate your request classes, e.g.
+#
+# $config = new Dotmailer\Config( 'config/config.yml' );
+# $request = new Dotmailer\Request\AddressbookRequest( $config );
+#
+username: API Username here
+password: API User password here

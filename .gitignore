@@ -1,0 +1,9 @@
+# Ignore real config file
+config/config.yml
+
+# Ignore composer generated files
+composer.phar
+composer.lock
+composer-test.lock
+vendor/
+
