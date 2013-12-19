@@ -94,12 +94,12 @@ class ContactRequest
     }
     public function create(Contact $contact)
     {
-        return $this->request->send('post', '', $contact);
+        return new Contact($this->request->send('post', '', $contact));
     }
 
     public function update(Contact $contact)
     {
-        return $this->request->send('put', '/' . $this->findId($contact), $contact);
+        return new Contact($this->request->send('put', '/' . $this->findId($contact), $contact));
     }
 
     public function delete($contact)
