@@ -15,7 +15,7 @@ A PHP implementation of the [v2 Dotmailer API](http://api.dotmailer.com/).
     * Items with an [x] are probably implemented - but the implementation isn't guaranteed complete. This is particularly the case for optional parameters
 * Docblocks are missing in many places - patches welcome
 * PHPUnit is set up, and some test cases are present. More would be welcome.
-* Requires PHP 5.4 or above.
+* Requires PHP 5.3 or above.
 
 # Examples
 

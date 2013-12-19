@@ -6,11 +6,8 @@ namespace Dotmailer\Entity;
  * Base class for entity classes.
  *
  * Implements generic methods for constructing from an object, or array.
- * Also implements JsonSerializable so that the classes can be JSON-ified.
- *
- * @implements JsonSerializable
  */
-abstract class Entity implements \JsonSerializable
+abstract class Entity
 {
     protected $non_serial_properties = array('non_serial_properties');
 
@@ -97,7 +94,7 @@ abstract class Entity implements \JsonSerializable
      *
      * @return string  A JSON representation of the class
      */
-    public function jsonSerialize()
+    public function toJson()
     {
         // Find all properties of the class
         $reflector  = new \ReflectionClass(get_called_class());
@@ -120,6 +117,6 @@ abstract class Entity implements \JsonSerializable
                 $return->$name = $this->$name;
             }
         }
-        return $return;
+        return json_encode($return);
     }
 }

@@ -71,15 +71,29 @@ class Request
 
     private function put($path, $data)
     {
+        $entity_class = 'Dotmailer\Entity\Entity';
         $request = $this->client->put($this->endpoint . $path);
-        $request->setBody(json_encode($data), 'application/json');
+        // Note - previously Entity implemented JsonSerializable which avoided this, but
+        // I've dropped that so we can require 5.3 rather than 5.4
+        if ($data instanceof $entity_class) {
+            $request->setBody($data->toJson(), 'application/json');
+        } else {
+            $request->setBody(json_encode($data), 'application/json');
+        }
         return $this->doSend($request);
     }
 
     private function post($path, $data)
     {
+        $entity_class = 'Dotmailer\Entity\Entity';
         $request = $this->client->post($this->endpoint . $path);
-        $request->setBody(json_encode($data), 'application/json');
+        // Note - previously Entity implemented JsonSerializable which avoided this, but
+        // I've dropped that so we can require 5.3 rather than 5.4
+        if ($data instanceof $entity_class) {
+            $request->setBody($data->toJson(), 'application/json');
+        } else {
+            $request->setBody(json_encode($data), 'application/json');
+        }
         return $this->doSend($request);
     }
 

@@ -19,7 +19,7 @@
         "issues": "https://github.com/leewillis77/dotmailer-api/issues"
     },
     "require": {
-        "php": "5.4.*",
+        "php": "5.3.*",
         "guzzle/guzzle": "3.7.*",
         "symfony/yaml": "2.4.*",
         "phpunit/phpunit": "3.7.*"
