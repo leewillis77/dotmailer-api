@@ -92,6 +92,18 @@ class ContactRequest
     {
         return $this->getAllBy('/unsubscribed-since/', $date, $args);
     }
+
+    public function getAll($args = array())
+    {
+        $this->request->setArgs($args);
+        $contacts = $this->request->send('get', '');
+        if (count($contacts)) {
+            return new ContactCollection($contacts);
+        } else {
+            return $contacts;
+        }
+    }
+
     public function create(Contact $contact)
     {
         return new Contact($this->request->send('post', '', $contact));
