@@ -65,7 +65,7 @@
 [x] https://api.dotmailer.com/v2/contacts/suppressed-since/{date}?select={select}&skip={skip}	GET
 [ ] https://api.dotmailer.com/v2/contacts/unsubscribe	POST
 [x] https://api.dotmailer.com/v2/contacts/unsubscribed-since/{date}?select={select}&skip={skip}	GET
-[ ] https://api.dotmailer.com/v2/contacts?withFullData={withFullData}&select={select}&skip={skip}	GET
+[x] https://api.dotmailer.com/v2/contacts?withFullData={withFullData}&select={select}&skip={skip}	GET
 [ ] https://api.dotmailer.com/v2/custom-from-addresses?select={select}&skip={skip}	GET
 [x] https://api.dotmailer.com/v2/data-fields	POST
 [x] https://api.dotmailer.com/v2/data-fields	GET
