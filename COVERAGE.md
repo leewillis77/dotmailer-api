@@ -1,3 +1,4 @@
+
 [x] https://api.dotmailer.com/v2/account-info	GET
 [x] https://api.dotmailer.com/v2/address-books	POST
 [x] https://api.dotmailer.com/v2/address-books/{addressBookId}/campaigns?select={select}&skip={skip}	GET
@@ -10,7 +11,7 @@
 [ ] https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts/resubscribe	POST
 [ ] https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts/unsubscribe	POST
 [x] https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts/unsubscribed-since/{date}?select={select}&skip={skip}	GET
-[?] https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts?withFullData={withFullData}&select={select}&skip={skip}	GET
+[x] https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts?withFullData={withFullData}&select={select}&skip={skip}	GET
 [x] https://api.dotmailer.com/v2/address-books/{id}	GET
 [x] https://api.dotmailer.com/v2/address-books/{id} PUT
 [x] https://api.dotmailer.com/v2/address-books/{id} DELETE
