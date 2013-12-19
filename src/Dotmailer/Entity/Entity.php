@@ -90,12 +90,26 @@ abstract class Entity
     /**
      * Serialize the class to a JSON string.
      *
-     * Excludes any properties listed in the non_serial_properties property.
-     *
      * @return string  A JSON representation of the class
+     *
+     * @uses  toStdClass
      */
     public function toJson()
     {
+        return json_encode($this->toStdClass());
+    }
+
+    /**
+     * Convert the entity to an instance of stdClass.
+     * Excludes any properties listed in the non_serial_properties property.
+     *
+     * @return object An instance of stdClass containing only required properties.
+     */
+    public function toStdClass()
+    {
+        $entity_class = 'Dotmailer\Entity\Entity';
+        $collection_class = 'Dotmailer\Collection\Collection';
+
         // Find all properties of the class
         $reflector  = new \ReflectionClass(get_called_class());
         $properties = $reflector->getProperties();
@@ -114,9 +128,16 @@ abstract class Entity
                 if (is_null($this->$name)) {
                     continue;
                 }
-                $return->$name = $this->$name;
+                // Properly encode child-entities
+                if ($this->$name instanceof $entity_class) {
+                    $return->$name = $this->$name->toStdClass();
+                } elseif ($this->$name instanceof $collection_class) {
+                    $return->$name = $this->$name->toArray();
+                } else {
+                    $return->$name = $this->$name;
+                }
             }
         }
-        return json_encode($return);
+        return $return;
     }
 }

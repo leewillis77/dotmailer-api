@@ -104,4 +104,12 @@ abstract class Collection implements \ArrayAccess, \Iterator, \Countable
         }
         return false;
     }
+
+    public function toArray()
+    {
+        foreach ($this->collection as $key => $value) {
+            $return[$key] = $value->toStdClass();
+        }
+        return $return;
+    }
 }
