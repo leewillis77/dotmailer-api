@@ -52,6 +52,7 @@ class TemplateRequest
 
     public function update($template)
     {
-        return new Template($this->request->send('put', '/' . $this->findId($template), $template)); // FIXME - not working
+        // FIXME - this doesn't work for me. I think related to my (free) account
+        return new Template($this->request->send('put', '/' . $this->findId($template), $template));
     }
 }

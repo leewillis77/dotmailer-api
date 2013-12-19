@@ -79,11 +79,11 @@ class TemplateRequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depend testGet
+     * @depends testCreate
      */
     public function testUpdate($template)
     {
-        $template->name = time();
+        $template->name .= " - ".time();
         try {
             $response = $this->request->update($template);
         } catch (\Exception $e) {
