@@ -4,7 +4,7 @@ namespace Dotmailer\Entity;
 
 /**
  * An ROI record.
- * @todo reference
+ * http://api.dotmailer.com/v2/help/wadl#ApiCampaignContactRoiDetail
  *
  * @extends Dotmailer\Entity
  */
