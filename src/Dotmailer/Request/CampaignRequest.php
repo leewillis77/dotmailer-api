@@ -223,7 +223,7 @@ class CampaignRequest
 
     public function getAttachments($campaign)
     {
-        $attachments = $this->request->send('get', '/' . $this->findId($campaign) . '/attachments' );
+        $attachments = $this->request->send('get', '/' . $this->findId($campaign) . '/attachments');
         return $attachments;
         if (count($attachments)) {
             return new AttachmentCollection($attachments);

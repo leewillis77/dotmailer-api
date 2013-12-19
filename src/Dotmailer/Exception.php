@@ -39,7 +39,7 @@ class Exception extends \Exception
                 return null;
             }
         }
-        if ($key ==  'api_response') {
+        if ($key == 'api_response') {
             if (!empty($this->response)) {
                 $body = json_decode($this->response->getBody());
                 return $body->message;
