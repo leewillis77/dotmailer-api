@@ -6,7 +6,7 @@ use Symfony\Component\Yaml\Parser;
 
 class Config
 {
-    private $config;
+    protected $config;
 
     public function __construct($config_file)
     {
