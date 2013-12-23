@@ -7,6 +7,7 @@ use Dotmailer\Collection\ActivityCollection;
 use Dotmailer\Collection\AddressbookCollection;
 use Dotmailer\Collection\CampaignCollection;
 use Dotmailer\Collection\ClickCollection;
+use Dotmailer\Collection\DocumentCollection;
 use Dotmailer\Collection\OpenCollection;
 use Dotmailer\Collection\PageviewCollection;
 use Dotmailer\Collection\ReplyCollection;
@@ -26,16 +27,22 @@ class CampaignRequest
         $this->request->setEndpoint('campaigns');
     }
 
-    private function findId($campaign)
+    /**
+     * Helper function to extract an ID given an ID, or object.
+     *
+     * @param  int|Entity $object An int, or a Dotmailer entity object.
+     * @return int                The ID of the passed object.
+     */
+    private function findId($object)
     {
-        if (is_scalar($campaign)) {
-            $campaign_id = $campaign;
-        } elseif (is_object($campaign)) {
-            $campaign_id = $campaign->id;
+        if (is_int($object)) {
+            $object_id = $object;
+        } elseif (is_object($object)) {
+            $object_id = $object->id;
         } else {
-            throw new Exception('Invalid campaign reference.');
+            throw new Exception('Invalid reference.');
         }
-        return $campaign_id;
+        return $object_id;
     }
 
     public function getContactActivity($campaign_id, $contact_id)
@@ -221,15 +228,54 @@ class CampaignRequest
         }
     }
 
-    public function getAttachments($campaign)
+    /**
+     * Gets documents that are currently attached to a campaign.
+     * https://api.dotmailer.com/v2/campaigns/{campaignId}/attachments
+     *
+     * @param  int|Campaign         $campaign The campaign to retrieve documents from.
+     * @return DocumentCollection           A list of the matching attachments.
+     */
+    public function getDocuments($campaign)
     {
-        $attachments = $this->request->send('get', '/' . $this->findId($campaign) . '/attachments');
-        return $attachments;
-        if (count($attachments)) {
-            return new AttachmentCollection($attachments);
+        $documents = $this->request->send('get', '/' . $this->findId($campaign) . '/attachments');
+        if (count($documents)) {
+            return new DocumentCollection($documents);
         } else {
-            return $attachments;
+            return $documents;
         }
+    }
+
+    /**
+     * Add a document to a campaign.
+     * https://api.dotmailer.com/v2/campaigns/{campaignId}/attachments
+     *
+     * @param int|Campaign $campaign The campaign to add the document to.
+     * @param Document     $document The document to add.
+     */
+    public function addDocument($campaign, $document)
+    {
+        $document = $this->request->send(
+            'post',
+            '/' . $this->findId($campaign) . '/attachments',
+            $document
+        );
+        return new Document($document);
+    }
+
+    /**
+     * Delete a document from a campaign.
+     * https://api.dotmailer.com/v2/campaigns/{campaignId}/attachments/{documentId}
+     *
+     * @param int|Campaign $campaign The campaign to remove the document from.
+     * @param int|Document $document The document to remove.
+     */
+    public function deleteDocument($campaign, $document)
+    {
+        $document = $this->request->send(
+            'delete',
+            '/' . $this->findId($campaign) . '/attachments/' . $this->findId($document),
+            $document
+        );
     }
 
     public function getAll($date = null, $args = array())

@@ -29,9 +29,9 @@
 [x] https://api.dotmailer.com/v2/campaigns/{campaignId}/activities/since-date/{date}?select={select}&skip={skip}	GET
 [x] https://api.dotmailer.com/v2/campaigns/{campaignId}/activities?select={select}&skip={skip}	GET
 [x] https://api.dotmailer.com/v2/campaigns/{campaignId}/address-books?select={select}&skip={skip}	GET
-[ ] https://api.dotmailer.com/v2/campaigns/{campaignId}/attachments	GET
-[ ] https://api.dotmailer.com/v2/campaigns/{campaignId}/attachments	POST
-[ ] https://api.dotmailer.com/v2/campaigns/{campaignId}/attachments/{documentId}	DELETE
+[?] https://api.dotmailer.com/v2/campaigns/{campaignId}/attachments	GET
+[?] https://api.dotmailer.com/v2/campaigns/{campaignId}/attachments	POST
+[?] https://api.dotmailer.com/v2/campaigns/{campaignId}/attachments/{documentId}	DELETE
 [x] https://api.dotmailer.com/v2/campaigns/{campaignId}/clicks?select={select}&skip={skip}	GET
 [ ] https://api.dotmailer.com/v2/campaigns/{campaignId}/copy	POST
 [ ] https://api.dotmailer.com/v2/campaigns/{campaignId}/hard-bouncing-contacts?withFullData={withFullData}&select={select}&skip={skip}	GET
