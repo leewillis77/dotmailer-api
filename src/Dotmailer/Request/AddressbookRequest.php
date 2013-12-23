@@ -233,7 +233,7 @@ class AddressbookRequest
      */
     public function update(Addressbook $book)
     {
-        return $this->request->send('put', '/' . $this->findId($book), $book);
+        return new Addressbook($this->request->send('put', '/' . $this->findId($book), $book));
     }
 
     /**
@@ -257,7 +257,8 @@ class AddressbookRequest
      */
     public function addContact($book, Contact $contact)
     {
-        return $this->request->send('post', '/' . $this->findId($book) . '/contacts', $contact);
+        $contact = $this->request->send('post', '/' . $this->findId($book) . '/contacts', $contact);
+        return new Contact($contact);
     }
 
     /**

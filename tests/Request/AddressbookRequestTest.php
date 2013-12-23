@@ -3,6 +3,9 @@
 namespace Dotmailer;
 
 use Dotmailer\Entity\Addressbook;
+use Dotmailer\Entity\DataItem;
+use Dotmailer\Entity\Contact;
+use Dotmailer\Collection\DataItemCollection;
 use Dotmailer\Request\AddressbookRequest;
 
 require('tests/bootstrap.php');
@@ -69,6 +72,42 @@ class AddressbookRequestTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertInstanceOf('Dotmailer\Entity\Addressbook', $response);
         $this->assertEquals($book->id, $response->id);
+    }
+
+    /**
+     * @depends testCreatePublic
+     */
+    public function testAddContact($book)
+    {
+        $firstname = new DataItem(
+            array(
+                'key' => 'FIRSTNAME',
+                'value' => time(),
+            )
+        );
+        $lastname = new DataItem(
+            array(
+                'key' => 'LASTNAME',
+                'value' => 'Test user',
+            )
+        );
+        $contact = new Contact(
+            array(
+                'email' => 'test@example.com',
+                'dataFields' => new DataItemCollection(
+                    array(
+                        $firstname,
+                        $lastname,
+                    )
+                )
+            )
+        );
+        try {
+            $response = $this->request->addContact($book->id, $contact);
+        } catch (\Exception $e) {
+            $this->fail('Request exception received');
+        }
+        $this->assertInstanceOf('Dotmailer\Entity\Contact', $response);
     }
 
     /**
