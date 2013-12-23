@@ -6,6 +6,7 @@ use Dotmailer\Config;
 use Dotmailer\Entity\Addressbook;
 use Dotmailer\Entity\Contact;
 use Dotmailer\Entity\Campaign;
+use Dotmailer\Entity\Resubscription;
 use Dotmailer\Collection\AddressbookCollection;
 use Dotmailer\Collection\CampaignCollection;
 use Dotmailer\Collection\ContactCollection;
@@ -288,6 +289,41 @@ class AddressbookRequest
         return $this->request->send(
             'delete',
             '/' . $this->findId($book) . '/contacts/' . $this->findContactId($contact)
+        );
+    }
+
+    /**
+     * Unsubscribes a contact from an addressbook.
+     * https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts/unsubscribe
+     *
+     * @param  int|Addressbook $book    The addressbook to unsubscribe the contact from.
+     * @param  Contact         $contact The contact to be unsubscribed.
+     */
+    public function unsubscribeContact($book, $contact)
+    {
+        $response = $this->request->send(
+            'post',
+            '/' . $this->findId($book) . '/contacts/unsubscribe',
+            $contact
+        );
+    }
+
+    /**
+     * Resubscribes a contact to an addressbook.
+     * https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts/resubscribe
+     *
+     * @param  int|Addressbook $book    The addressbook to resubscribe the contact from.
+     * @param  Contact         $contact The contact to be resubscribed.
+     */
+
+    public function resubscribeContact($book, $contact)
+    {
+        $resubscription = new Resubscription();
+        $resubscription->unsubscribedContact = $contact;
+        $response = $this->request->send(
+            'post',
+            '/' . $this->findId($book) . '/contacts/resubscribe',
+            $resubscription
         );
     }
 }

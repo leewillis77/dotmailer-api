@@ -108,6 +108,35 @@ class AddressbookRequestTest extends \PHPUnit_Framework_TestCase
             $this->fail('Request exception received');
         }
         $this->assertInstanceOf('Dotmailer\Entity\Contact', $response);
+        return $response;
+    }
+
+    /**
+     * @depends testCreatePublic
+     * @depends testAddContact
+     */
+    public function testUnsubscribeContact($book, $contact)
+    {
+        try {
+            $response = $this->request->unsubscribeContact($book->id, $contact);
+        } catch (\Exception $e) {
+            $this->fail('Request exception received');
+        }
+        return array($book, $contact);
+    }
+
+    /**
+     * @depends testUnsubscribeContact
+     */
+    public function testResubscribeContact($objects)
+    {
+        $book = $objects[0];
+        $contact = $objects[1];
+        try {
+            $response = $this->request->resubscribeContact($book->id, $contact);
+        } catch (\Exception $e) {
+            $this->fail('Request exception received');
+        }
     }
 
     /**
