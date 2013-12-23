@@ -3,6 +3,7 @@
 namespace Dotmailer;
 
 use Dotmailer\Entity\Contact;
+use Dotmailer\Entity\ContactSuppression;
 use Dotmailer\Entity\DataItem;
 use Dotmailer\Collection\DataItemCollection;
 use Dotmailer\Request\ContactRequest;
@@ -47,6 +48,37 @@ class ContactRequestTest extends \PHPUnit_Framework_TestCase
         return $response;
     }
 
+    public function testUnsubscribe()
+    {
+        $dataitem = array('key' => 'FIRSTNAME', 'value' => 'Lee');
+        $firstname = new DataItem($dataitem);
+        $arr = array(
+            'email' => 'testunsubscribe'.time().'@example.com',
+            'dataFields' => new DataItemCollection(array($firstname)),
+        );
+        $new_contact = new Contact($arr);
+        try {
+            $contact = $this->request->create($new_contact);
+            $response = $this->request->unsubscribe($contact);
+        } catch (\Exception $e) {
+            $this->fail('Request exception received: '.$e->getMessage());
+        }
+        $this->assertInstanceOf('Dotmailer\Entity\ContactSuppression', $response);
+        return $response;
+    }
+
+    /**
+     * @depends testUnsubscribe
+     */
+    public function testResubscribe($contact)
+    {
+        try {
+            $response = $this->request->resubscribe($contact->suppressedContact);
+        } catch (\Exception $e) {
+            $this->fail('Request exception received: '.$e->getMessage());
+        }
+        $this->assertInstanceOf('Dotmailer\Entity\Contact', $response);
+    }
     /**
      * @depends testCreate
      *

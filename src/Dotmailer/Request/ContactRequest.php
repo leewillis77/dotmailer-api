@@ -3,9 +3,12 @@
 namespace Dotmailer\Request;
 
 use Dotmailer\Config;
+use Dotmailer\Entity\Contact;
+use Dotmailer\Entity\ContactSuppression;
+use Dotmailer\Entity\Resubscription;
 use Dotmailer\Collection\AddressbookCollection;
 use Dotmailer\Collection\ContactCollection;
-use Dotmailer\Entity\Contact;
+
 
 class ContactRequest
 {
@@ -117,5 +120,42 @@ class ContactRequest
     public function delete($contact)
     {
         return $this->request->send('delete', '/' . $this->findId($contact));
+    }
+
+    /**
+     * Unsubscribes a contact.
+     * http://api.dotmailer.com/v2/help/wadl#ContactsUnsubscribe
+     *
+     * @param  Contact $contact   The contact to be unsubscribed.
+     * @return ContactSuppression The contact suppression object.
+     */
+    public function unsubscribe($contact)
+    {
+        $response = $this->request->send(
+            'post',
+            '/unsubscribe',
+            $contact
+        );
+        return new ContactSuppression($response);
+    }
+
+    /**
+     * Resubscribes a contact.
+     * http://api.dotmailer.com/v2/help/wadl#ContactsResubscribe
+     *
+     * @param  Contact $contact The contact to be resubscribed.
+     * @return Contact          The contact record of the resubscribed user.
+     */
+
+    public function resubscribe($contact)
+    {
+        $resubscription = new Resubscription();
+        $resubscription->unsubscribedContact = $contact;
+        $response = $this->request->send(
+            'post',
+            '/resubscribe',
+            $resubscription
+        );
+        return new Contact($response);
     }
 }
