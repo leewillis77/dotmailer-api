@@ -293,6 +293,22 @@ class AddressbookRequest
     }
 
     /**
+     * Remove multiple contacts from an addressbook.
+     * http://api.dotmailer.com/v2/help/wadl#AddressBookContactsDelete
+     *
+     * @param  int|Addressbook   $book     The addresssbook to remove contacts from.
+     * @param  array             $contacts A plain array of contact IDs to be removed.
+     */
+    public function removeContacts($book, $contacts)
+    {
+        return $this->request->send(
+            'post',
+            '/' . $this->findId($book) . '/contacts/delete',
+            $contacts
+        );
+    }
+
+    /**
      * Unsubscribes a contact from an addressbook.
      * https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts/unsubscribe
      *

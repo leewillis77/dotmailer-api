@@ -142,6 +142,72 @@ class AddressbookRequestTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testCreatePublic
      */
+    public function testRemoveContacts($book)
+    {
+        $firstname = new DataItem(
+            array(
+                'key' => 'FIRSTNAME',
+                'value' => time(),
+            )
+        );
+        $lastname = new DataItem(
+            array(
+                'key' => 'LASTNAME',
+                'value' => 'Test user',
+            )
+        );
+        $contacts[0] = new Contact(
+            array(
+                'email' => 'delete_test1@example.com',
+                'dataFields' => new DataItemCollection(
+                    array(
+                        $firstname,
+                        $lastname,
+                    )
+                )
+            )
+        );
+        $contacts[1] = new Contact(
+            array(
+                'email' => 'delete_test2@example.com',
+                'dataFields' => new DataItemCollection(
+                    array(
+                        $firstname,
+                        $lastname,
+                    )
+                )
+            )
+        );
+        $contacts[2] = new Contact(
+            array(
+                'email' => 'delete_test3@example.com',
+                'dataFields' => new DataItemCollection(
+                    array(
+                        $firstname,
+                        $lastname,
+                    )
+                )
+            )
+        );
+        try {
+            // Add the three contacts to the addressbook.
+            $response = $this->request->addContact($book->id, $contacts[0]);
+            $to_remove[] = $response->id;
+            $response = $this->request->addContact($book->id, $contacts[1]);
+            $to_remove[] = $response->id;
+            $response = $this->request->addContact($book->id, $contacts[2]);
+            $to_remove[] = $response->id;
+            // Try and bulk remove them.
+            $response = $this->request->removeContacts($book->id, $to_remove);
+        } catch (\Exception $e) {
+            $this->fail('Request exception received: ');
+        }
+        return $response;
+    }
+
+    /**
+     * @depends testCreatePublic
+     */
     public function testGetAllPublic($book)
     {
         try {
@@ -247,5 +313,4 @@ class AddressbookRequestTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertTrue(true);
     }
-
 }
