@@ -21,6 +21,11 @@ class CampaignRequest
 {
     private $request;
 
+    /**
+     * Constructor. Create a request, and set the default endpoint.
+     *
+     * @param Config $config The config to use for this request.
+     */
     public function __construct(Config $config)
     {
         $this->request = new Request($config);
@@ -45,9 +50,20 @@ class CampaignRequest
         return $object_id;
     }
 
-    public function getContactActivity($campaign_id, $contact_id)
+    /**
+     * Gets activity for a given contact and campaign
+     * http://api.dotmailer.com/v2/help/wadl#CampaignActivity
+     *
+     * @param  int|Campaign $campaign The campaign to fetch activity for.
+     * @param  int|Contact  $contact  The contact to fetch activity for.
+     * @return Activity               The activities for that campaign / contact combination.
+     */
+    public function getContactActivity($campaign, $contact)
     {
-        $activity = $this->request->send('get', '/' . $campaign_id . '/activities/' . $contact_id);
+        $activity = $this->request->send(
+            'get',
+            '/' . $this->findId($campaign) . '/activities/' . $this->findId($contact)
+        );
         if ($activity) {
             return new Activity($activity);
         } else {
@@ -55,10 +71,22 @@ class CampaignRequest
         }
     }
 
-    public function getContactActivityClicks($campaign_id, $contact_id, $args = array())
+    /**
+     * Gets a list of campaign link clicks for a contact.
+     * http://api.dotmailer.com/v2/help/wadl#CampaignActivityClicks
+     *
+     * @param  int|Campaign $campaign The campaign to fetch activity clicks for.
+     * @param  int|Contact  $contact  The contact to fetch activity clicks for.
+     * @param  array        $args     An array of (optional) query args.
+     * @return ClickCollection        The activity clicks for that campaign / contact combination.
+     */
+    public function getContactActivityClicks($campaign, $contact, $args = array())
     {
         $this->request->setArgs($args);
-        $clicks = $this->request->send('get', '/' . $campaign_id . '/activities/' . $contact_id . '/clicks');
+        $clicks = $this->request->send(
+            'get',
+            '/' . $this->findId($campaign) . '/activities/' . $this->findId($contact) . '/clicks'
+        );
         if (count($clicks)) {
             return new ClickCollection($clicks);
         } else {
@@ -66,10 +94,22 @@ class CampaignRequest
         }
     }
 
-    public function getContactActivityOpens($campaign_id, $contact_id, $args = array())
+    /**
+     * Gets a list of campaign activity opens for a contact.
+     * http://api.dotmailer.com/v2/help/wadl#CampaignActivityOpens
+     *
+     * @param  int|Campaign $campaign The campaign to fetch activity opens for.
+     * @param  int|Contact  $contact  The contact to fetch activity opens for.
+     * @param  array        $args     An array of (optional) query args.
+     * @return ClickCollection        The activity opens for that campaign / contact combination.
+     */
+    public function getContactActivityOpens($campaign, $contact, $args = array())
     {
         $this->request->setArgs($args);
-        $opens = $this->request->send('get', '/' . $campaign_id . '/activities/' . $contact_id . '/opens');
+        $opens = $this->request->send(
+            'get',
+            '/' . $this->findId($campaign) . '/activities/' . $this->findId($contact) . '/opens'
+        );
         if (count($opens)) {
             return new OpenCollection($opens);
         } else {
@@ -77,10 +117,22 @@ class CampaignRequest
         }
     }
 
-    public function getContactActivityPageviews($campaign_id, $contact_id, $args = array())
+    /**
+     * Gets a list of campaign activity pageviews for a contact.
+     * http://api.dotmailer.com/v2/help/wadl#CampaignActivityPageViews
+     *
+     * @param  int|Campaign $campaign The campaign to fetch page views for.
+     * @param  int|Contact  $contact  The contact to fetch page views for.
+     * @param  array        $args     An array of (optional) query args.
+     * @return ClickCollection        The page views for that campaign / contact combination.
+     */
+    public function getContactActivityPageviews($campaign, $contact, $args = array())
     {
         $this->request->setArgs($args);
-        $pageviews = $this->request->send('get', '/' . $campaign_id . '/activities/' . $contact_id . '/page-views');
+        $pageviews = $this->request->send(
+            'get',
+            '/' . $this->findId($campaign) . '/activities/' . $this->findId($contact) . '/page-views'
+        );
         if (count($pageviews)) {
             return new PageviewCollection($pageviews);
         } else {
