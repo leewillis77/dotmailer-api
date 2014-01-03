@@ -8,14 +8,14 @@ class Config
 {
     protected $config;
 
-    public function __construct($config_file)
+    public function __construct($config_params)
     {
-        $this->load();
+        $this->load($config_params);
     }
 
-    private function load() {
+    private function load($filename) {
         $parser = new Parser();
-        $this->config = $parser->parse(file_get_contents($config_file));
+        $this->config = $parser->parse(file_get_contents($filename));
     }
     
     public function __get($key)
