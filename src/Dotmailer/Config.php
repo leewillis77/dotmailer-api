@@ -13,7 +13,8 @@ class Config
         $this->load($config_params);
     }
 
-    private function load($filename) {
+    private function load($filename)
+    {
         $parser = new Parser();
         $this->config = $parser->parse(file_get_contents($filename));
     }
