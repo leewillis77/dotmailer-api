@@ -20,6 +20,7 @@ class Account extends Entity
                 return $value->value;
             }
         }
+        $trace = debug_backtrace();
         trigger_error(
             'Undefined account property: ' . $name .
             ' in ' . $trace[0]['file'] .
