@@ -10,10 +10,14 @@ class Config
 
     public function __construct($config_file)
     {
+        $this->load();
+    }
+
+    private function load() {
         $parser = new Parser();
         $this->config = $parser->parse(file_get_contents($config_file));
     }
-
+    
     public function __get($key)
     {
         if (isset($this->config[$key])) {
