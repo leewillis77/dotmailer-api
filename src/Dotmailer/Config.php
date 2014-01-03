@@ -8,17 +8,12 @@ class Config
 {
     protected $config;
 
-    public function __construct($config_params)
-    {
-        $this->load($config_params);
-    }
-
-    private function load($filename)
+    public function __construct($config_file)
     {
         $parser = new Parser();
-        $this->config = $parser->parse(file_get_contents($filename));
+        $this->config = $parser->parse(file_get_contents($config_file));
     }
-    
+
     public function __get($key)
     {
         if (isset($this->config[$key])) {
