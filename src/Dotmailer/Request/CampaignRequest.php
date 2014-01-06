@@ -260,6 +260,25 @@ class CampaignRequest
         }
     }
 
+    /**
+     * Retrieve the hard bouncing contacts for a campaign.
+     * 
+     * @param  int|Campaign       $campaign The campaign ID, or campaign object to check against.
+     * @param  array              $args     An array of (optional) query args.
+     * @return CampaignCollection           The list of bouncing contacts
+     */
+    public function getHardBouncingContacts($campaign, $args = array())
+    {
+        $path = '/' . $this->findId($campaign) . '/hard-bouncing-contacts';
+        $this->request->setArgs($args);
+        $bouncing_contacts = $this->request->send('get', $path);
+        if (count($bouncing_contacts)) {
+            return new ContactCollection($bouncing_contacts);
+        } else {
+            return $bouncing_contacts;
+        }
+    }
+
     public function getSummary($campaign_id)
     {
         $summary = $this->request->send('get', '/' . $campaign_id . '/summary');
