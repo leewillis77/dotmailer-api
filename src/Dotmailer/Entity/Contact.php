@@ -30,6 +30,7 @@ class Contact extends Entity
                 }
             }
         }
+        return '';
     }
 
     public function setDatafield($key, $value)
