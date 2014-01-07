@@ -2,15 +2,17 @@
 
 namespace Dotmailer;
 
+use Dotmailer\Config;
 use Dotmailer\Collection\ContactCollection;
 use Dotmailer\Collection\DataItemCollection;
 use Dotmailer\Entity\Contact;
 use Dotmailer\Entity\DataItem;
-use Dotmailer\Request\ContactRequest;
+use Dotmailer\Request\ContactImportRequest;
+
 
 require('tests/bootstrap.php');
 
-class ContactImportTest extends \PHPUnit_Framework_TestCase
+class ContactImportRequestTest extends \PHPUnit_Framework_TestCase
 {
     private $config;
     private $request;
@@ -22,7 +24,7 @@ class ContactImportTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->request = new ContactRequest($this->config);
+        $this->request = new ContactImportRequest($this->config);
     }
 
     public function tearDown()
@@ -56,14 +58,32 @@ class ContactImportTest extends \PHPUnit_Framework_TestCase
         $contact_collection = new ContactCollection($contact_list);
 
         try {
-            $response = $this->request->doImport($contact_collection);
+            $response = $this->request->create($contact_collection);
         } catch (\Exception $e) {
-            print_r($e->getMessage());
-            // $this->fail('Request exception received: '.$e->api_response);
+            $this->fail('Request exception received: '.$e->api_response);
         }
-        $this->assertInstanceOf('Dotmailer\Entity\Contact', $response); // FIXME
+        $this->assertInstanceOf('Dotmailer\Entity\ContactImport', $response);
         return $response;
     }
 
+    /**
+     * @depends testImport
+     */
+    public function testGetImport($import) {
+        sleep(5); // Give the import time to run.
+        try {
+            $response = $this->request->get($import->id);
+        } catch (\Exception $e) {
+            $this->fail('Request exception received: '.$e->api_response);
+        }
+        $this->assertInstanceOf('Dotmailer\Entity\ContactImport', $response);
+        try {
+            $response = $this->request->get($import);
+        } catch (\Exception $e) {
+            $this->fail('Request exception received: '.$e->api_response);
+        }
+        $this->assertInstanceOf('Dotmailer\Entity\ContactImport', $response);
+        $this->assertEquals('Finished', $response->status);
+    }
 
 }

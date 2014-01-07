@@ -57,8 +57,8 @@
 [ ] https://api.dotmailer.com/v2/contacts/{id}/transactional-data/{collectionName}	DELETE
 [ ] https://api.dotmailer.com/v2/contacts/{id}/transactional-data/{collectionName}	GET
 [x] https://api.dotmailer.com/v2/contacts/created-since/{date}?withFullData={withFullData}&select={select}&skip={skip}	GET
-[ ] https://api.dotmailer.com/v2/contacts/import	POST
-[ ] https://api.dotmailer.com/v2/contacts/import/{importId}	GET
+[x] https://api.dotmailer.com/v2/contacts/import	POST
+[x] https://api.dotmailer.com/v2/contacts/import/{importId}	GET
 [ ] https://api.dotmailer.com/v2/contacts/import/{importId}/report	GET
 [ ] https://api.dotmailer.com/v2/contacts/import/{importId}/report-faults	GET
 [x] https://api.dotmailer.com/v2/contacts/modified-since/{date}?withFullData={withFullData}&select={select}&skip={skip}	GET
