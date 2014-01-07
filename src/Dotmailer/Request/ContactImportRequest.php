@@ -4,6 +4,7 @@ namespace Dotmailer\Request;
 
 use Dotmailer\Config;
 use Dotmailer\Entity\ContactImport;
+use Dotmailer\Entity\ContactImportReport;
 use Dotmailer\Collection\ContactCollection;
 use Dotmailer\Request\DatafieldRequest;
 
@@ -53,13 +54,40 @@ class ContactImportRequest
     /**
      * Retrieve the details of a contact import from either a ContactImport object, or
      * the import ID.
+     * 
      * @param  ContactImport|int  $import  A ContactImport object to enquire about, or the import ID.
-     * @return [type]                      [description]
+     * @return ContactImport               The ContactImport object, or false.
      */
     public function get($import)
     {
         $response = $this->request->send('get', '/import/'.$this->findId($import));
         return new ContactImport($response);
+    }
+
+    /**
+     * Get a report about the results of an import from either a ContactImport object, or the 
+     * import ID.
+     * 
+     * @param  ContactImport|int  $import  A ContactImport object to enquire about, or the import ID.
+     * @return ContactImportReport         The ContactImportReport for the selected import.
+     */
+    public function getReport($import)
+    {
+        $response = $this->request->send('get', '/import/'.$this->findId($import).'/report');
+        return new ContactImportReport($response);
+    }
+
+    /**
+     * Get a list of details that failed to be imported. 
+     *
+     * @param  ContactImport|int  $import  A ContactImport object to enquire about, or the import ID.
+     * @return String                      CSV of the entries that failed
+     * @todo                               What could we more usefully return here, extended ContactCollection?
+     */
+    public function getReportFaults($import)
+    {
+        $response = $this->request->send('get', '/import/'.$this->findId($import).'/report-faults');
+        return $response;
     }
 
     /**
