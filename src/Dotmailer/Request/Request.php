@@ -119,9 +119,13 @@ class Request
             throw new Exception($e->getMessage(), $e->getCode(), $e, $e->getResponse());
         }
         if ($response->isSuccessful()) {
-            $body = $response->getBody();
-            $body = json_decode($body);
-            return $body;
+            $raw_body = $response->getBody();
+            $body = json_decode($raw_body);
+            if(json_last_error() == JSON_ERROR_NONE) {
+                return $body;
+            } else { 
+                return (string)$raw_body;
+            }
         } else {
             throw new Exception('Unexpected API response', 0, null, $response);
         }
