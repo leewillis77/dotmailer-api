@@ -37,13 +37,23 @@ class Contact extends Entity
     {
         if (is_int($key) && isset($this->dataFields[$key])) {
             $this->dataFields[$key] = $value;
+            return;
         }
         if (count($this->dataFields)) {
             foreach ($this->dataFields as $fieldkey => $field) {
                 if ($field->key == $key) {
                     $this->dataFields[$fieldkey]->value = $value;
+                    return;
                 }
             }
         }
+        // Add a new data field with this value.
+        $field = new DataItem(
+            array(
+                'key' => $key,
+                'value' => $value,
+            )
+        );
+        $this->dataFields[] = $field;
     }
 }

@@ -5,6 +5,7 @@ namespace Dotmailer\Request;
 use Dotmailer\Config;
 use Dotmailer\Entity\ContactImport;
 use Dotmailer\Entity\ContactImportReport;
+use Dotmailer\Entity\ContactWithReason;
 use Dotmailer\Collection\ContactCollection;
 use Dotmailer\Request\DatafieldRequest;
 
@@ -87,7 +88,35 @@ class ContactImportRequest
     public function getReportFaults($import)
     {
         $response = $this->request->send('get', '/import/'.$this->findId($import).'/report-faults');
+        $this->csvToArray($response);
         return $response;
+    }
+
+    private function csvToArray($input) {
+        $input = str_getcsv($input, "\n"); //parse the rows 
+        $headings = array_shift($input);
+        $headings = str_getcsv($headings, ',');
+        $items = array();
+        while($row = array_shift($input)) {
+            $row = str_getcsv($row, ","); //parse the items in rows
+            $item = array();
+            $reason = $row[0];
+            $email = $row[1];
+            $contact = new ContactWithReason(
+                array(
+                    'email' => $email,
+                    'reason' => $reason,
+                )
+            );
+            foreach ($row as $idx => $value) {
+                if ($idx < 2)
+                    continue;
+                $contact->setDataField(strtoupper($headings[$idx]), $value);
+            }
+            $contacts[] = $contact;
+        }
+        $collection = new ContactCollection($contacts);
+        return $collection;
     }
 
     /**

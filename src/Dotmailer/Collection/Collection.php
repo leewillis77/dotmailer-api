@@ -92,7 +92,11 @@ abstract class Collection implements \ArrayAccess, \Iterator, \Countable
      */
     protected function callback($element)
     {
-        return new $this->entity_type($element);
+        if ($element instanceof $this->entity_type) {
+            return $element;
+        } else {
+            return new $this->entity_type($element);
+        }
     }
 
     public function hasItemWith($keyname, $reqvalue)
