@@ -133,7 +133,11 @@ class ContactImportRequestTest extends \PHPUnit_Framework_TestCase
         } catch (\Exception $e) {
             $this->fail('Request exception received: '.$e->api_response);
         }
-        $this->assertContains('Invalid Email,invisible', $response);
+        $this->assertInstanceOf('Dotmailer\Collection\ContactCollection', $response);
+        $this->assertCount(1, $response);
+        $result = $response[0];
+        $this->assertEquals('Invalid Email', $result->reason);
+        $this->assertEquals('invisible', $result->email);
     }
 
     public static function tearDownAfterClass() {

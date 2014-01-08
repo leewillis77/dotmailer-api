@@ -88,11 +88,11 @@ class ContactImportRequest
     public function getReportFaults($import)
     {
         $response = $this->request->send('get', '/import/'.$this->findId($import).'/report-faults');
-        $this->csvToArray($response);
+        $response = $this->csvToContactCollection($response);
         return $response;
     }
 
-    private function csvToArray($input) {
+    private function csvToContactCollection($input) {
         $input = str_getcsv($input, "\n"); //parse the rows 
         $headings = array_shift($input);
         $headings = str_getcsv($headings, ',');
