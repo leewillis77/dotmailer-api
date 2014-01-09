@@ -143,17 +143,21 @@ class ContactImportRequestTest extends \PHPUnit_Framework_TestCase
     public static function tearDownAfterClass() {
         $config = new Config('config/config.yml');
         $request = new ContactRequest($config);
-        $contact = $request->getByEmail('lee@example.com');
-        if ($contact) {
-            $request->delete($contact);
-        }
-        $contact = $request->getByEmail('joe@example.com');
-        if ($contact) {
-            $request->delete($contact);
-        }
-        $contact = $request->getByEmail('fred@example.com');
-        if ($contact) {
-            $request->delete($contact);
+        try {
+            $contact = $request->getByEmail('lee@example.com');
+            if ($contact) {
+                $request->delete($contact);
+            }
+            $contact = $request->getByEmail('joe@example.com');
+            if ($contact) {
+                $request->delete($contact);
+            }
+            $contact = $request->getByEmail('fred@example.com');
+            if ($contact) {
+                $request->delete($contact);
+            }       
+        } catch (Exception $e) {
+            // Ignore errors here.
         }
     }
 }
