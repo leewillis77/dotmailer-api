@@ -96,7 +96,7 @@ class ContactImportRequest
         $input = str_getcsv($input, "\n"); //parse the rows 
         $headings = array_shift($input);
         $headings = str_getcsv($headings, ',');
-        $items = array();
+        $contacts = array();
         while($row = array_shift($input)) {
             $row = str_getcsv($row, ","); //parse the items in rows
             $item = array();
