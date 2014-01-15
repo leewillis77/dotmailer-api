@@ -21,12 +21,12 @@ class Contact extends Entity
     public function getDatafield($key)
     {
         if (isset($this->dataFields[$key])) {
-            return $this->dataFields[$key]->value;
+            return !empty($this->dataFields[$key]->value) ? $this->dataFields[$key]->value : '';
         }
         if (count($this->dataFields)) {
             foreach ($this->dataFields as $field) {
                 if ($field->key == $key) {
-                    return $field->value;
+                    return !empty($field->value) ? $field->value : '';
                 }
             }
         }

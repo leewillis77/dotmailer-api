@@ -104,4 +104,24 @@ class ContactRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $response);
         return $response[0];
     }
+
+    /**
+     * @depends testCreate
+     *
+     * This depends on testCreate so that we can assert that at least one record
+     * is returned. The parameter is unused however.
+     */
+    public function testGetByEmail($ignored)
+    {
+        try {
+            $response = $this->request->getByEmail('lee@example.com');
+        } catch (\Exception $e) {
+            $this->fail('Request exception received: '.$e->raw_api_response);
+        }
+        $this->assertInstanceOf('Dotmailer\Entity\Contact', $response);
+        $this->assertGreaterThan(0, count($response));
+        print_r($response);
+    }
+
+
 }
