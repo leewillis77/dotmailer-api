@@ -6,7 +6,7 @@
 [x] https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts POST
 [x] https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts/{contactId}	DELETE
 [x] https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts/delete	POST
-[ ] https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts/import	POST
+[x] https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts/import	POST
 [x] https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts/modified-since/{date}?withFullData={withFullData}&select={select}&skip={skip}	GET
 [x] https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts/resubscribe	POST
 [x] https://api.dotmailer.com/v2/address-books/{addressBookId}/contacts/unsubscribe	POST
@@ -76,7 +76,7 @@
 [x] https://api.dotmailer.com/v2/segments?select={select}&skip={skip}	GET
 [x] https://api.dotmailer.com/v2/templates	POST
 [x] https://api.dotmailer.com/v2/templates/{id}	GET
-[x] https://api.dotmailer.com/v2/templates/{id}	PUT 
+[x] https://api.dotmailer.com/v2/templates/{id}	PUT
 [x] https://api.dotmailer.com/v2/templates?select={select}&skip={skip}	GET
 
 
