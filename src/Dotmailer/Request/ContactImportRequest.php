@@ -35,27 +35,35 @@ class ContactImportRequest
     }
 
     /**
-     * Import a list of new contacts. 
+     * Import a list of new contacts.
      * http://api.dotmailer.com/v2/help/wadl#AddressBookContactsImport
-     * 
-     * @param  ContactCollection $contacts A collection of contacts to import.
-     * @return ContactImport               A ContactImport record, including the import ID
+     *
+     * @param  ContactCollection $contacts    A collection of contacts to import.
+     * @param  Addressbook|int   $addressbook An (optional) addressbook, or addressbook ID to import to.
+     * @return ContactImport                  A ContactImport record, including the import ID.
      */
-    public function create(ContactCollection $contacts)
+    public function create(ContactCollection $contacts, $addressbook = null)
     {
         $csv = $this->createCSVFromCollection($contacts);
         $args = array(
             'filename' => time().'.csv',
             'data' => base64_encode($csv)
         );
-        $response = $this->request->send('post', '/import', $args);
+        if ($addressbook) {
+            $addressbook_id = $this->findId($addressbook);
+            $this->request->setEndpoint('address-books');
+            $response = $this->request->send('post', '/'.$addressbook_id.'/contacts/import', $args);
+            $this->request->setEndpoint('contacts');
+        } else {
+            $response = $this->request->send('post', '/import', $args);
+        }
         return new ContactImport($response);
     }
 
     /**
      * Retrieve the details of a contact import from either a ContactImport object, or
      * the import ID.
-     * 
+     *
      * @param  ContactImport|int  $import  A ContactImport object to enquire about, or the import ID.
      * @return ContactImport               The ContactImport object, or false.
      */
@@ -66,9 +74,9 @@ class ContactImportRequest
     }
 
     /**
-     * Get a report about the results of an import from either a ContactImport object, or the 
+     * Get a report about the results of an import from either a ContactImport object, or the
      * import ID.
-     * 
+     *
      * @param  ContactImport|int  $import  A ContactImport object to enquire about, or the import ID.
      * @return ContactImportReport         The ContactImportReport for the selected import.
      */
@@ -79,7 +87,7 @@ class ContactImportRequest
     }
 
     /**
-     * Get a list of details that failed to be imported. 
+     * Get a list of details that failed to be imported.
      *
      * @param  ContactImport|int  $import  A ContactImport object to enquire about, or the import ID.
      * @return String                      CSV of the entries that failed
@@ -93,7 +101,7 @@ class ContactImportRequest
     }
 
     private function csvToContactCollection($input) {
-        $input = str_getcsv($input, "\n"); //parse the rows 
+        $input = str_getcsv($input, "\n"); //parse the rows
         $headings = array_shift($input);
         $headings = str_getcsv($headings, ',');
         $contacts = array();
@@ -121,7 +129,7 @@ class ContactImportRequest
 
     /**
      * Creates a CSV representation of a ContactCollection.
-     * 
+     *
      * @param  ContactCollection  $contacts  The contacts to be transformed into CSV.
      * @return string                        A CSV representation of the passed ContactCollection.
      */
@@ -173,7 +181,7 @@ class ContactImportRequest
 
     /**
      * Get a collection of all of the data fields on the account.
-     * 
+     *
      * @return DatafieldCollection The list of datafields.
      */
     private function getDatafieldsForImport()
