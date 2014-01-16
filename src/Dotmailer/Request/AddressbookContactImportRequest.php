@@ -8,14 +8,14 @@ use Dotmailer\Collection\ContactCollection;
 use Dotmailer\Request\AbstractContactImportRequest;
 
 
-class ContactImportRequest extends AbstractContactImportRequest
+class AddressbookContactImportRequest extends AbstractContactImportRequest
 {
 
     public function __construct(Config $config)
     {
         $this->config = $config;
         $this->request = new Request($config);
-        $this->request->setEndpoint('contacts');
+        $this->request->setEndpoint('address-books');
     }
 
     /**
@@ -23,16 +23,18 @@ class ContactImportRequest extends AbstractContactImportRequest
      * http://api.dotmailer.com/v2/help/wadl#AddressBookContactsImport
      *
      * @param  ContactCollection $contacts    A collection of contacts to import.
+     * @param  Addressbook|int   $addressbook An addressbook, or addressbook ID to import to.
      * @return ContactImport                  A ContactImport record, including the import ID.
      */
-    public function create(ContactCollection $contacts)
+    public function create(ContactCollection $contacts, $addressbook)
     {
         $csv = $this->createCSVFromCollection($contacts);
         $args = array(
             'filename' => time().'.csv',
             'data' => base64_encode($csv)
         );
-        $response = $this->request->send('post', '/import', $args);
+        $addressbook_id = $this->findId($addressbook);
+        $response = $this->request->send('post', '/'.$addressbook_id.'/contacts/import', $args);
         return new ContactImport($response);
     }
 
