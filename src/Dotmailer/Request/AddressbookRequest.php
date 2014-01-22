@@ -11,6 +11,8 @@ use Dotmailer\Entity\Resubscription;
 use Dotmailer\Collection\AddressbookCollection;
 use Dotmailer\Collection\CampaignCollection;
 use Dotmailer\Collection\ContactCollection;
+use Dotmailer\Collection\SuppressedContactCollection;
+
 
 class AddressbookRequest
 {
@@ -163,7 +165,7 @@ class AddressbookRequest
      */
     public function getContacts($addressbook_id, $args = array())
     {
-        return $this->doGetContacts($addressbook_id, '', null, $args);
+        return $this->doGetContacts($addressbook_id, '', null, 'Dotmailer\Collection\ContactCollection', $args);
     }
 
     /**
@@ -177,7 +179,7 @@ class AddressbookRequest
      */
     public function getContactsModifiedSince($addressbook_id, $date, $args = array())
     {
-        return $this->doGetContacts($addressbook_id, '/modified-since/', $date, $args);
+        return $this->doGetContacts($addressbook_id, '/modified-since/', $date, 'Dotmailer\Collection\ContactCollection', $args);
     }
 
 	/**
@@ -191,7 +193,7 @@ class AddressbookRequest
      */
     public function getContactsUnsubscribedSince($addressbook_id, $date, $args = array())
     {
-        return $this->doGetContacts($addressbook_id, '/unsubscribed-since/', $date, $args);
+        return $this->doGetContacts($addressbook_id, '/unsubscribed-since/', $date, 'Dotmailer\Collection\SuppressedContactCollection', $args);
     }
 
     /**
@@ -202,13 +204,13 @@ class AddressbookRequest
      * @param  array             $args           An array of (optional) query args.
      * @return ContactCollection                 A list of the matching contacts.
      */
-    private function doGetContacts($addressbook_id, $slug = '', $date = null, $args = array())
+    private function doGetContacts($addressbook_id, $slug = '', $date = null, $collection_type, $args = array())
     {
         $path = $this->request->maybeAddDate($date, $slug, '/'.$addressbook_id.'/contacts');
         $this->request->setArgs($args);
         $contacts = $this->request->send('get', $path);
         if (count($contacts)) {
-            return new ContactCollection($contacts);
+            return new $collection_type($contacts);
         } else {
             return $contacts;
         }
