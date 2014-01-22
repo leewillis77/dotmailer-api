@@ -123,7 +123,7 @@ class Request
             $body = json_decode($raw_body);
             if(json_last_error() == JSON_ERROR_NONE) {
                 return $body;
-            } else { 
+            } else {
                 return (string)$raw_body;
             }
         } else {
@@ -131,7 +131,7 @@ class Request
         }
     }
 
-    private function maybeAddDate($date_string, $slug, $path)
+    public function maybeAddDate($date_string, $slug, $path)
     {
         if (empty($date_string)) {
             return $path;
@@ -143,7 +143,7 @@ class Request
     private function formatDate($date_string)
     {
         try {
-            $date = \DateTime($date_string);
+            $date = new \DateTime($date_string);
         } catch ( \Exception $e) {
             throw new Exception("Invalid date format : $date_string");
         }

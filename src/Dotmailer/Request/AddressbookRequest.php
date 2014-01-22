@@ -2,6 +2,7 @@
 
 namespace Dotmailer\Request;
 
+use Dotmailer\Exception;
 use Dotmailer\Config;
 use Dotmailer\Entity\Addressbook;
 use Dotmailer\Entity\Contact;
@@ -203,9 +204,9 @@ class AddressbookRequest
      */
     private function doGetContacts($addressbook_id, $slug = '', $date = null, $args = array())
     {
-        $path = maybeAddDate($date, $slug, $path);
+        $path = $this->request->maybeAddDate($date, $slug, '/'.$addressbook_id.'/contacts');
         $this->request->setArgs($args);
-        $contacts = $this->request->send('get', '/' . $addressbook_id . '/contacts');
+        $contacts = $this->request->send('get', $path);
         if (count($contacts)) {
             return new ContactCollection($contacts);
         } else {

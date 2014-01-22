@@ -179,7 +179,7 @@ class CampaignRequest
     public function getActivity($campaign_id, $date = null, $args = array())
     {
         $path = '/' . $campaign_id . '/activities';
-        $path = maybeAddDate($date, '/since-date/', $path);
+        $path = $this->request->maybeAddDate($date, '/since-date/', $path);
         $this->request->setArgs($args);
         $activity = $this->request->send('get', $path);
         if ($activity) {
@@ -225,7 +225,7 @@ class CampaignRequest
     public function getPageviews($campaign_id, $date, $args = array())
     {
         $path = '/' . $campaign_id . '/page-views';
-        $path = maybeAddDate($date, '/since-date/', $path);
+        $path = $this->request->maybeAddDate($date, '/since-date/', $path);
         $this->request->setArgs($args);
         $pageviews = $this->request->send('get', $path);
         if (count($pageviews)) {
@@ -238,7 +238,7 @@ class CampaignRequest
     public function getRoi($campaign_id, $date, $args = array())
     {
         $path = '/' . $campaign_id . '/roi-details';
-        $path = maybeAddDate($date, '/since-date/', $path);
+        $path = $this->request->maybeAddDate($date, '/since-date/', $path);
         $this->request->setArgs($args);
         $roi = $this->request->send('get', $path);
         if (count($roi)) {
@@ -262,7 +262,7 @@ class CampaignRequest
 
     /**
      * Retrieve the hard bouncing contacts for a campaign.
-     * 
+     *
      * @param  int|Campaign       $campaign The campaign ID, or campaign object to check against.
      * @param  array              $args     An array of (optional) query args.
      * @return CampaignCollection           The list of bouncing contacts
@@ -352,7 +352,7 @@ class CampaignRequest
     public function getAll($date = null, $args = array())
     {
         $path = '';
-        $path = maybeAddDate($date, '/with-activity-since/', $path);
+        $path = $this->request->maybeAddDate($date, '/with-activity-since/', $path);
         $this->request->setArgs($args);
         $campaigns = $this->request->send('get', $path);
         if (count($campaigns)) {
