@@ -203,9 +203,10 @@ class AddressbookRequest
      */
     private function doGetContacts($addressbook_id, $slug = '', $date = null, $args = array())
     {
+        $path = '/' . $addressbook_id . '/contacts';
         $path = maybeAddDate($date, $slug, $path);
         $this->request->setArgs($args);
-        $contacts = $this->request->send('get', '/' . $addressbook_id . '/contacts');
+        $contacts = $this->request->send('get', $path);
         if (count($contacts)) {
             return new ContactCollection($contacts);
         } else {
