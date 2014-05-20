@@ -19,4 +19,15 @@ class DatafieldCollection extends Collection
       }
       return false;
     }
+
+    public function getField($field_name)
+    {
+      foreach ($this->collection as $field) {
+        if ($field->getName() == $field_name) {
+          return $field;
+        }
+      }
+      return false;
+    }
+
 }
