@@ -8,6 +8,7 @@ use Dotmailer\Entity\ContactSuppression;
 use Dotmailer\Entity\Resubscription;
 use Dotmailer\Collection\AddressbookCollection;
 use Dotmailer\Collection\ContactCollection;
+use Dotmailer\Collection\SuppressedContactCollection;
 
 
 class ContactRequest
@@ -65,16 +66,26 @@ class ContactRequest
 
     private function getAllBy($slug, $date, $args = array())
     {
+        return $this->getAllOfTypeBy($slug, $date, $args = array(), 'Dotmailer\Collection\ContactCollection');
+    }
+
+    private function getAllSuppressedBy($slug, $date, $args = array()) {
+        return $this->getAllOfTypeBy($slug, $date, $args = array(), 'Dotmailer\Collection\SuppressedContactCollection');
+    }
+
+    private function getAllOfTypeBy($slug, $date, $args = array(), $collection_type)
+    {
         $path = '';
         $path = $this->request->maybeAddDate($date, $slug, $path);
         $this->request->setArgs($args);
         $contacts = $this->request->send('get', $path);
         if (count($contacts)) {
-            return new ContactCollection($contacts);
+            return new $collection_type($contacts);
         } else {
             return $contacts;
         }
     }
+
 
     public function getCreatedSince($date, $args = array())
     {
@@ -88,7 +99,7 @@ class ContactRequest
 
     public function getSuppressedSince($date, $args = array())
     {
-        return $this->getAllBy('/suppressed-since/', $date, $args);
+        return $this->getAllSuppressedBy('/suppressed-since/', $date, $args);
     }
 
     public function getUnsubscribedSince($date, $args = array())
