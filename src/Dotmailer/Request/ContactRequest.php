@@ -66,7 +66,7 @@ class ContactRequest
     private function getAllBy($slug, $date, $args = array())
     {
         $path = '';
-        $path = maybeAddDate($date, $slug, $path);
+        $path = $this->request->maybeAddDate($date, $slug, $path);
         $this->request->setArgs($args);
         $contacts = $this->request->send('get', $path);
         if (count($contacts)) {
