@@ -66,11 +66,11 @@ class ContactRequest
 
     private function getAllBy($slug, $date, $args = array())
     {
-        return $this->getAllOfTypeBy($slug, $date, $args = array(), 'Dotmailer\Collection\ContactCollection');
+        return $this->getAllOfTypeBy($slug, $date, $args, 'Dotmailer\Collection\ContactCollection');
     }
 
     private function getAllSuppressedBy($slug, $date, $args = array()) {
-        return $this->getAllOfTypeBy($slug, $date, $args = array(), 'Dotmailer\Collection\SuppressedContactCollection');
+        return $this->getAllOfTypeBy($slug, $date, $args, 'Dotmailer\Collection\SuppressedContactCollection');
     }
 
     private function getAllOfTypeBy($slug, $date, $args = array(), $collection_type)
@@ -104,7 +104,7 @@ class ContactRequest
 
     public function getUnsubscribedSince($date, $args = array())
     {
-        return $this->getAllBy('/unsubscribed-since/', $date, $args);
+        return $this->getAllSuppressedBy('/unsubscribed-since/', $date, $args);
     }
 
     public function getAll($args = array())
