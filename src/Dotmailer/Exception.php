@@ -42,6 +42,11 @@ class Exception extends \Exception
         if ($key == 'api_response') {
             if (!empty($this->response)) {
                 $body = json_decode($this->response->getBody());
+                
+                if (!$body) {
+                    return null;
+                }
+                
                 return $body->message;
             } else {
                 return null;
