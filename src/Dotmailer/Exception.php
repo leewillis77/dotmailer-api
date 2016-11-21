@@ -43,7 +43,7 @@ class Exception extends \Exception
             if (!empty($this->response)) {
                 $body = json_decode($this->response->getBody());
                 
-                if (!$body) {
+                if (!$body || !isset($body->message)) {
                     return null;
                 }
                 
