@@ -2,8 +2,8 @@
 
 namespace Dotmailer\Request;
 
+use Dotmailer\AbstractConfig;
 use Guzzle\Http\Client;
-use Dotmailer\Config;
 use Dotmailer\Exception;
 
 class Request
@@ -12,7 +12,7 @@ class Request
     private $args;
     protected $endpoint = 'https://api.dotmailer.com/v2/';
 
-    public function __construct(Config $config)
+    public function __construct(AbstractConfig $config)
     {
         $this->config = $config;
         $this->client = new Client();
