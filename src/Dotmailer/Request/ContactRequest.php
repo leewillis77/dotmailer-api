@@ -2,7 +2,7 @@
 
 namespace Dotmailer\Request;
 
-use Dotmailer\Config;
+use Dotmailer\AbstractConfig;
 use Dotmailer\Entity\Contact;
 use Dotmailer\Entity\ContactSuppression;
 use Dotmailer\Entity\Resubscription;
@@ -10,12 +10,11 @@ use Dotmailer\Collection\AddressbookCollection;
 use Dotmailer\Collection\ContactCollection;
 use Dotmailer\Collection\SuppressedContactCollection;
 
-
 class ContactRequest
 {
     private $request;
 
-    public function __construct(Config $config)
+    public function __construct(AbstractConfig $config)
     {
         $this->request = new Request($config);
         $this->request->setEndpoint('contacts');
