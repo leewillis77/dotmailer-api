@@ -2,11 +2,12 @@
 
 namespace Dotmailer;
 
+use PHPUnit\Framework\TestCase;
 use Dotmailer\Request\AccountRequest;
 
 require('tests/bootstrap.php');
 
-class AccountRequestTest extends \PHPUnit_Framework_TestCase
+class AccountRequestTest extends TestCase
 {
     private $config;
     private $request;
@@ -16,12 +17,12 @@ class AccountRequestTest extends \PHPUnit_Framework_TestCase
         $this->config = new Config('config/config.yml');
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new AccountRequest($this->config);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->request);
     }

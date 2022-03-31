@@ -7,10 +7,11 @@ use Dotmailer\Entity\DataItem;
 use Dotmailer\Entity\Contact;
 use Dotmailer\Collection\DataItemCollection;
 use Dotmailer\Request\AddressbookRequest;
+use PHPUnit\Framework\TestCase;
 
 require('tests/bootstrap.php');
 
-class AddressbookRequestTest extends \PHPUnit_Framework_TestCase
+class AddressbookRequestTest extends TestCase
 {
     private $config;
     private $request;
@@ -20,12 +21,12 @@ class AddressbookRequestTest extends \PHPUnit_Framework_TestCase
         $this->config = new Config('config/config.yml');
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new AddressbookRequest($this->config);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->request);
     }

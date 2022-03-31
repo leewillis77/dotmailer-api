@@ -4,10 +4,11 @@ namespace Dotmailer;
 
 use Dotmailer\Entity\Template;
 use Dotmailer\Request\TemplateRequest;
+use PHPUnit\Framework\TestCase;
 
 require('tests/bootstrap.php');
 
-class TemplateRequestTest extends \PHPUnit_Framework_TestCase
+class TemplateRequestTest extends TestCase
 {
     private $config;
     private $request;
@@ -17,12 +18,12 @@ class TemplateRequestTest extends \PHPUnit_Framework_TestCase
         $this->config = new Config('config/config.yml');
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new TemplateRequest($this->config);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->request);
     }

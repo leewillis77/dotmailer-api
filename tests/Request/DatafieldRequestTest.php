@@ -4,10 +4,11 @@ namespace Dotmailer;
 
 use Dotmailer\Config;
 use Dotmailer\Request\DatafieldRequest;
+use PHPUnit\Framework\TestCase;
 
 require('tests/bootstrap.php');
 
-class DatafieldRequestTest extends \PHPUnit_Framework_TestCase
+class DatafieldRequestTest extends TestCase
 {
     private $config;
     private $request;
@@ -17,12 +18,12 @@ class DatafieldRequestTest extends \PHPUnit_Framework_TestCase
         $this->config = new Config('config/config.yml');
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new DatafieldRequest($this->config);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->request);
     }

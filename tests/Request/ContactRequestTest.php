@@ -7,10 +7,11 @@ use Dotmailer\Entity\ContactSuppression;
 use Dotmailer\Entity\DataItem;
 use Dotmailer\Collection\DataItemCollection;
 use Dotmailer\Request\ContactRequest;
+use PHPUnit\Framework\TestCase;
 
 require('tests/bootstrap.php');
 
-class ContactRequestTest extends \PHPUnit_Framework_TestCase
+class ContactRequestTest extends TestCase
 {
     private $config;
     private $request;
@@ -20,12 +21,12 @@ class ContactRequestTest extends \PHPUnit_Framework_TestCase
         $this->config = new Config('config/config.yml');
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new ContactRequest($this->config);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->request);
     }

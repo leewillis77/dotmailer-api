@@ -9,11 +9,12 @@ use Dotmailer\Entity\Contact;
 use Dotmailer\Entity\DataItem;
 use Dotmailer\Request\ContactImportRequest;
 use Dotmailer\Request\ContactRequest;
+use PHPUnit\Framework\TestCase;
 
 
 require('tests/bootstrap.php');
 
-class ContactImportRequestTest extends \PHPUnit_Framework_TestCase
+class ContactImportRequestTest extends TestCase
 {
     private $config;
     private $request;
@@ -23,12 +24,12 @@ class ContactImportRequestTest extends \PHPUnit_Framework_TestCase
         $this->config = new Config('config/config.yml');
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new ContactImportRequest($this->config);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->request);
     }
@@ -140,7 +141,7 @@ class ContactImportRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('invisible', $result->email);
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
         $config = new Config('config/config.yml');
         $request = new ContactRequest($config);
         try {
